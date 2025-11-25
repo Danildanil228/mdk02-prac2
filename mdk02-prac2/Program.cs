@@ -4,37 +4,34 @@ using System.Collections.Generic;
 
 
 //flyweight легковес
-class Program
+
+// фабрика стилей 
+TextStyleFactory styleFactory = new TextStyleFactory(new List<SharedStyle>()
 {
-    static void Main()
-    {
-        // фабрика стилей 
-        TextStyleFactory styleFactory = new TextStyleFactory(new List<SharedStyle>()
-        {
-            new SharedStyle("Arial", 12, "Black"),
-            new SharedStyle("Times New Roman", 14, "Blue"),
-            new SharedStyle("Courier New", 10, "Red")
-        });
+    new SharedStyle("Arial", 12, "Black"),
+    new SharedStyle("Times New Roman", 14, "Blue"),
+    new SharedStyle("Courier New", 10, "Red")
+});
 
-        styleFactory.ListFlyweights();
+styleFactory.ListFlyweights();
 
-        AddCharacterToDocument(styleFactory, "Arial", 12, "Black", 'П', 0);
-        AddCharacterToDocument(styleFactory, "Arial", 12, "Black", 'р', 1);
-        AddCharacterToDocument(styleFactory, "Times New Roman", 14, "Blue", 'З', 2);
-        AddCharacterToDocument(styleFactory, "Courier New", 10, "Red", 'к', 3);
-        AddCharacterToDocument(styleFactory, "Arial", 12, "Black", 'о', 4);
+AddCharacterToDocument(styleFactory, "Arial", 12, "Black", 'П', 0);
+AddCharacterToDocument(styleFactory, "Arial", 12, "Black", 'р', 1);
+AddCharacterToDocument(styleFactory, "Times New Roman", 14, "Blue", 'З', 2);
+AddCharacterToDocument(styleFactory, "Courier New", 10, "Red", 'к', 3);
+AddCharacterToDocument(styleFactory, "Arial", 12, "Black", 'о', 4);
 
-        styleFactory.ListFlyweights();
-    }
+styleFactory.ListFlyweights();
+}
 
-    static void AddCharacterToDocument(TextStyleFactory styleFactory,
-        string font, int size, string color, char symbol, int position)
+static void AddCharacterToDocument(TextStyleFactory styleFactory,
+string font, int size, string color, char symbol, int position)
     {
         Console.WriteLine();
         TextFlyweight flyweight = styleFactory.GetFlyweight(new SharedStyle(font, size, color));
         flyweight.Process(new UniqueCharacter(symbol, position));
     }
-}
+
 
 // ВНУТРЕННЕЕ СОСТОЯНИЕ 
 struct SharedStyle
